@@ -29,6 +29,12 @@ export interface Post {
   body: string;
 }
 
+export interface NewPost {
+  title: string;
+  body: string;
+  userId: number;
+}
+
 export interface PostComment {
   postId: number;
   id: number;

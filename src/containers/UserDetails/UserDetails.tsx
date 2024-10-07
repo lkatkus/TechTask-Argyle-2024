@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAddPostMutation, useUserPostsQuery } from "../../api/api";
-import { Post, User } from "../../api/api.types";
-import { UserPostDetails } from "./components";
+import { NewPost, Post, User } from "../../api/api.types";
+import { UserAddPostModal, UserPostDetails } from "./components";
+import { useModal } from "../../hooks";
 
 interface UserDetailsProps {
   data: User;
@@ -13,11 +14,13 @@ export function UserDetails({ data }: UserDetailsProps) {
   const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
   const [deletedPosts, setDeletedPosts] = useState<number[]>([]);
 
-  const handleAddPost = () => {
-    mutate({ title: "foo", body: "bar", userId: 1 });
+  const handleAddPost = (newPostData: NewPost) => {
+    mutate(newPostData);
   };
 
   const handleOnAddUserPost = (createdPostData: Post) => {
+    hideModal();
+
     const newCreatedPostId = Math.floor(Math.random() * 1000 + 100);
     const createdPost = { ...createdPostData, id: newCreatedPostId };
 
@@ -30,6 +33,9 @@ export function UserDetails({ data }: UserDetailsProps) {
 
   const { data: posts, isLoading } = useUserPostsQuery(id);
   const { mutate, isPending } = useAddPostMutation(handleOnAddUserPost);
+  const { Modal, showModal, hideModal } = useModal(
+    <UserAddPostModal isLoading={isPending} handleAddPost={handleAddPost} />
+  );
 
   useEffect(() => {
     if (posts) {
@@ -54,7 +60,8 @@ export function UserDetails({ data }: UserDetailsProps) {
   }
 
   return (
-    <div style={{ padding: 8, backgroundColor: isPending ? "red" : "green" }}>
+    <div style={{ padding: 8, backgroundColor: "green" }}>
+      <Modal />
       <div
         style={{
           display: "flex",
@@ -63,9 +70,7 @@ export function UserDetails({ data }: UserDetailsProps) {
         }}
       >
         <h2>User - {id}</h2>
-        <button disabled={isPending} onClick={handleAddPost}>
-          Add
-        </button>
+        <button onClick={showModal}>Add</button>
       </div>
       <div style={{ padding: 8, backgroundColor: "blue" }}>
         {displayedPosts.length > 0 ? (
