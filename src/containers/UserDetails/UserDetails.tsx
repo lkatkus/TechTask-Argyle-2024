@@ -1,6 +1,7 @@
-import { useUserPostsQuery } from "../../api/api";
-import { User } from "../../api/api.types";
-import { UserPostList } from "./components";
+import { useEffect, useState } from "react";
+import { useAddPostMutation, useUserPostsQuery } from "../../api/api";
+import { Post, User } from "../../api/api.types";
+import { UserPostDetails } from "./components";
 
 interface UserDetailsProps {
   data: User;
@@ -8,22 +9,52 @@ interface UserDetailsProps {
 
 export function UserDetails({ data }: UserDetailsProps) {
   const { id } = data;
-  const { data: posts, isLoading } = useUserPostsQuery(id);
 
-  if (isLoading) {
-    return <div>LOADING USER DETAILS</div>;
-  }
-
-  if (!posts) {
-    return <div>Missing user posts data</div>;
-  }
+  const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
+  const [deletedPosts, setDeletedPosts] = useState<number[]>([]);
 
   const handleAddPost = () => {
-    alert(`handleAddPost ${id}`);
+    mutate({ title: "foo", body: "bar", userId: 1 });
   };
 
+  const handleOnAddUserPost = (createdPostData: Post) => {
+    const newCreatedPostId = Math.floor(Math.random() * 1000 + 100);
+    const createdPost = { ...createdPostData, id: newCreatedPostId };
+
+    setDisplayedPosts((v) => [...v, createdPost]);
+  };
+
+  const handleOnDeleteUserPost = (deletedPostId: number) => {
+    setDeletedPosts((v) => [...v, deletedPostId]);
+  };
+
+  const { data: posts, isLoading } = useUserPostsQuery(id);
+  const { mutate, isPending } = useAddPostMutation(handleOnAddUserPost);
+
+  useEffect(() => {
+    if (posts) {
+      setDisplayedPosts(posts);
+    }
+  }, [posts]);
+
+  useEffect(() => {
+    if (deletedPosts.length > 0) {
+      setDisplayedPosts((v) =>
+        v.filter(({ id }) => !deletedPosts.includes(id))
+      );
+    }
+  }, [deletedPosts]);
+
+  if (isLoading) {
+    return <div>LOADING...</div>;
+  }
+
+  if (!displayedPosts) {
+    return <div>Missing user posts data.</div>;
+  }
+
   return (
-    <div style={{ padding: 8, backgroundColor: "green" }}>
+    <div style={{ padding: 8, backgroundColor: isPending ? "red" : "green" }}>
       <div
         style={{
           display: "flex",
@@ -32,10 +63,24 @@ export function UserDetails({ data }: UserDetailsProps) {
         }}
       >
         <h2>User - {id}</h2>
-        <button onClick={handleAddPost}>Add</button>
+        <button disabled={isPending} onClick={handleAddPost}>
+          Add
+        </button>
       </div>
-      <div>
-        <UserPostList data={posts} />
+      <div style={{ padding: 8, backgroundColor: "blue" }}>
+        {displayedPosts.length > 0 ? (
+          displayedPosts.map((post) => {
+            return (
+              <UserPostDetails
+                key={post.id}
+                data={post}
+                onDeleteUserPost={handleOnDeleteUserPost}
+              />
+            );
+          })
+        ) : (
+          <div>This user does not have any posts.</div>
+        )}
       </div>
     </div>
   );

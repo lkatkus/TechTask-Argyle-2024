@@ -9,7 +9,7 @@ export function UsersList() {
   }
 
   if (!data) {
-    return <div>Missing users data</div>;
+    return <div>Missing users data.</div>;
   }
 
   return (

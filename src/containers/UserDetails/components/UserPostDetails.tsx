@@ -20,11 +20,11 @@ export function UserPostDetails({
   const { mutate, isPending } = useDeletePostMutation(onDeleteUserPost);
 
   if (isLoading) {
-    return <div>LOADING USER DETAILS</div>;
+    return <div>LOADING...</div>;
   }
 
   if (!comments) {
-    return <div>Missing user post comments data</div>;
+    return <div>Missing user post comments data.</div>;
   }
 
   const handleDeletePost = () => {
@@ -43,12 +43,18 @@ export function UserPostDetails({
         <h4>
           {id} - {title}
         </h4>
-        <button onClick={handleDeletePost}>Delete</button>
+        <button disabled={isPending} onClick={handleDeletePost}>
+          Delete
+        </button>
       </div>
       <div>
-        {comments.map((comment) => {
-          return <UserPostComment key={comment.id} data={comment} />;
-        })}
+        {comments.length > 0 ? (
+          comments.map((comment) => {
+            return <UserPostComment key={comment.id} data={comment} />;
+          })
+        ) : (
+          <div>This post does not have any comments.</div>
+        )}
       </div>
     </div>
   );

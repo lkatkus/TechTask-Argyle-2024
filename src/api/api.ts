@@ -74,3 +74,31 @@ export const useDeletePostMutation = (
     },
   });
 };
+
+const addUserPost = async (newPostData: {
+  title: string;
+  body: string;
+  userId: number;
+}): Promise<Post> => {
+  const url = new URL(`https://jsonplaceholder.typicode.com/posts`);
+
+  const res = await fetch(url, {
+    method: "POST",
+    body: JSON.stringify(newPostData),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  });
+  const data = await res.json();
+
+  return data;
+};
+
+export const useAddPostMutation = (
+  handleOnSuccess: (newPostData: Post) => void
+) => {
+  return useMutation({
+    mutationFn: addUserPost,
+    onSuccess: (data) => {
+      handleOnSuccess(data);
+    },
+  });
+};
