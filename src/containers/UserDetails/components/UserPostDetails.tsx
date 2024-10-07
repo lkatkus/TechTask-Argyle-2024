@@ -1,14 +1,23 @@
-import { useUserPostCommentsQuery } from "../../../api/api";
+import {
+  useDeletePostMutation,
+  useUserPostCommentsQuery,
+} from "../../../api/api";
 import { Post } from "../../../api/api.types";
 import { UserPostComment } from "./UserPostComment";
 
 interface UserPostDetailsProps {
   data: Post;
+  onDeleteUserPost: (deletedPostId: number) => void;
 }
 
-export function UserPostDetails({ data }: UserPostDetailsProps) {
+export function UserPostDetails({
+  data,
+  onDeleteUserPost,
+}: UserPostDetailsProps) {
   const { id, title } = data;
+
   const { data: comments, isLoading } = useUserPostCommentsQuery(id);
+  const { mutate, isPending } = useDeletePostMutation(onDeleteUserPost);
 
   if (isLoading) {
     return <div>LOADING USER DETAILS</div>;
@@ -19,11 +28,11 @@ export function UserPostDetails({ data }: UserPostDetailsProps) {
   }
 
   const handleDeletePost = () => {
-    alert("handleDeletePost");
+    mutate(id);
   };
 
   return (
-    <div style={{ padding: 8, backgroundColor: "grey" }}>
+    <div style={{ padding: 8, backgroundColor: isPending ? "red" : "grey" }}>
       <div
         style={{
           display: "flex",
@@ -31,7 +40,9 @@ export function UserPostDetails({ data }: UserPostDetailsProps) {
           justifyContent: "space-between",
         }}
       >
-        <h4>{title}</h4>
+        <h4>
+          {id} - {title}
+        </h4>
         <button onClick={handleDeletePost}>Delete</button>
       </div>
       <div>

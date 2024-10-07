@@ -19,7 +19,7 @@ export function UserDetails({ data }: UserDetailsProps) {
   }
 
   const handleAddPost = () => {
-    alert("handleAddPost");
+    alert(`handleAddPost ${id}`);
   };
 
   return (

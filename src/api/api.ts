@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { User, Post, PostComment } from "./api.types";
 
 const fetchUsers = async (): Promise<User[]> => {
@@ -52,5 +52,25 @@ export const useUserPostCommentsQuery = (postId: number) => {
   return useQuery({
     queryKey: ["userPostComments", postId],
     queryFn: () => fetchUserPostComments(postId),
+  });
+};
+
+const deleteUserPost = async (postId: number): Promise<PostComment[]> => {
+  const url = new URL(`https://jsonplaceholder.typicode.com/posts/${postId}`);
+
+  const res = await fetch(url, { method: "DELETE" });
+  const data = await res.json();
+
+  return data;
+};
+
+export const useDeletePostMutation = (
+  handleOnSuccess: (postId: number) => void
+) => {
+  return useMutation({
+    mutationFn: deleteUserPost,
+    onSuccess: (_data, variables) => {
+      handleOnSuccess(variables);
+    },
   });
 };
