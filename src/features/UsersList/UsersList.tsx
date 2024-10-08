@@ -13,12 +13,10 @@ export function UsersList() {
   }
 
   return (
-    <div style={{ padding: 8, backgroundColor: "yellow" }}>
-      <div>
-        {data.map((user) => {
-          return <UserDetails key={user.id} data={user} />;
-        })}
-      </div>
+    <div className="grid grid-cols-1 gap-6">
+      {data.map((user) => {
+        return <UserDetails key={user.id} data={user} />;
+      })}
     </div>
   );
 }

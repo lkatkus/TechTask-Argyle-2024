@@ -3,6 +3,7 @@ import {
   useUserPostCommentsQuery,
 } from "../../../api/api";
 import { Post } from "../../../api/api.types";
+import { Button } from "../../../components/Button";
 import { useModal } from "../../../hooks";
 import { UserDeletePostModal } from "./UserDeletePostModal";
 import { UserPostComment } from "./UserPostComment";
@@ -50,32 +51,32 @@ export function UserPostDetails({
 
   return (
     <>
-      <div style={{ padding: 8, backgroundColor: isPending ? "red" : "grey" }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <h4>{title}</h4>
-          <button disabled={isPending} onClick={showModal}>
+      <div>
+        <div className="p-2 flex items-center justify-between gap-4">
+          <h4 className="text-lg font-semibold">{title}</h4>
+          <Button variant="danger" disabled={isPending} onClick={showModal}>
             Delete
-          </button>
+          </Button>
         </div>
 
-        <div style={{ color: "lime" }}>
-          <p>{body}</p>
-        </div>
-
-        <div>
-          {comments.length > 0 ? (
-            comments.map((comment) => {
-              return <UserPostComment key={comment.id} data={comment} />;
-            })
-          ) : (
-            <div>This post does not have any comments.</div>
-          )}
+        <div className="p-4 border-t-4 border-slate-400 bg-gray-100">
+          <div className="p-4 mb-4">
+            <p>{body}</p>
+          </div>
+          <div>
+            <div className="mb-2">
+              <p className="text-sm">Comments ({comments.length})</p>
+            </div>
+            <div className="grid grid-cols-1 gap-2">
+              {comments.length > 0 ? (
+                comments.map((comment) => {
+                  return <UserPostComment key={comment.id} data={comment} />;
+                })
+              ) : (
+                <div>This post does not have any comments.</div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 

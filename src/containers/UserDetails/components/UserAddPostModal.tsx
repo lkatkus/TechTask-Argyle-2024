@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { NewPost, User } from "../../../api/api.types";
+import { Button } from "../../../components/Button";
 
 type Inputs = {
   title: string;
@@ -55,12 +56,14 @@ export function UserAddPostModal({
           {errors.body && <span>This field is required</span>}
         </div>
 
-        <button disabled={isLoading} onClick={onDiscard}>
-          Cancel
-        </button>
-        <button type="submit" disabled={isLoading}>
-          Submit
-        </button>
+        <div className="flex justify-end gap-2">
+          <Button variant="secondary" disabled={isLoading} onClick={onDiscard}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={isLoading}>
+            Submit
+          </Button>
+        </div>
       </form>
     </div>
   );

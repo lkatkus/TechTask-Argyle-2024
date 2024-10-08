@@ -25,23 +25,11 @@ export const useModal = (content: JSX.Element): ReturnProps => {
   const modalContent = (
     <div
       onClick={handleHideModal}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0,0,0,0.5)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+      className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
     >
       <div
-        style={{ padding: 32, margin: 64, backgroundColor: "white" }}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
+        className="bg-white rounded-lg shadow-lg p-6 max-w-lg w-full"
+        onClick={(e) => e.stopPropagation()}
       >
         <div>
           <button onClick={handleHideModal}>Close</button>

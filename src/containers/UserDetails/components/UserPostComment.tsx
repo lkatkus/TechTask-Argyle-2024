@@ -6,18 +6,24 @@ interface UserPostCommentProps {
 }
 
 export function UserPostComment({ data }: UserPostCommentProps) {
-  const { email, body } = data;
+  const { name, email, body } = data;
 
   const { Modal, showModal } = useModal(<div>{JSON.stringify(data)}</div>);
 
   return (
     <>
       <div
-        style={{ padding: 8, backgroundColor: "lime", cursor: "pointer" }}
+        className="p-2 bg-gray-200 hover:bg-gray-300 hover:cursor-pointer"
         onClick={showModal}
       >
-        <div>{email}</div>
-        <div>{body}</div>
+        <div className="mb-1">
+          <p className="text-sm text-gray-500">
+            by {name} ({email})
+          </p>
+        </div>
+        <div>
+          <p>{body}</p>
+        </div>
       </div>
       <Modal />
     </>

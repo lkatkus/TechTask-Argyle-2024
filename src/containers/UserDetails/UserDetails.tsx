@@ -3,13 +3,14 @@ import { useAddPostMutation, useUserPostsQuery } from "../../api/api";
 import { NewPost, Post, User } from "../../api/api.types";
 import { UserAddPostModal, UserPostDetails } from "./components";
 import { useModal } from "../../hooks";
+import { Button } from "../../components/Button";
 
 interface UserDetailsProps {
   data: User;
 }
 
 export function UserDetails({ data }: UserDetailsProps) {
-  const { id } = data;
+  const { id, username } = data;
 
   const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
   const [deletedPosts, setDeletedPosts] = useState<number[]>([]);
@@ -70,18 +71,15 @@ export function UserDetails({ data }: UserDetailsProps) {
 
   return (
     <>
-      <div style={{ padding: 8, backgroundColor: "green" }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <h2>User - {id}</h2>
-          <button onClick={showModal}>Add</button>
+      <div className="grid grid-cols-1 gap-8">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">
+            {username} ({displayedPosts.length})
+          </h2>
+          <Button onClick={showModal}>Add</Button>
         </div>
-        <div style={{ padding: 8, backgroundColor: "blue" }}>
+
+        <div className="grid grid-cols-1 gap-4">
           {displayedPosts.length > 0 ? (
             displayedPosts.map((post) => {
               return (
