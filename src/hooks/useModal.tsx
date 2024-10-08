@@ -1,5 +1,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "../components";
 
 interface ReturnProps {
@@ -34,7 +36,7 @@ export const useModal = (content: JSX.Element): ReturnProps => {
       >
         <div className="absolute right-0 top-0 m-2">
           <Button variant="secondary" onClick={handleHideModal}>
-            X
+            <FontAwesomeIcon icon={faClose} />
           </Button>
         </div>
         <div>{content}</div>
