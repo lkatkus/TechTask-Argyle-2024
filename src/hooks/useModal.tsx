@@ -1,5 +1,6 @@
 import React from "react";
 import { createPortal } from "react-dom";
+import { Button } from "../components";
 
 interface ReturnProps {
   showModal: () => void;
@@ -28,11 +29,13 @@ export const useModal = (content: JSX.Element): ReturnProps => {
       className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
     >
       <div
-        className="bg-white rounded-lg shadow-lg p-6 max-w-lg w-full"
+        className="relative bg-white rounded-lg shadow-lg p-6 max-w-lg w-full "
         onClick={(e) => e.stopPropagation()}
       >
-        <div>
-          <button onClick={handleHideModal}>Close</button>
+        <div className="absolute right-0 top-0 m-2">
+          <Button variant="secondary" onClick={handleHideModal}>
+            X
+          </Button>
         </div>
         <div>{content}</div>
       </div>

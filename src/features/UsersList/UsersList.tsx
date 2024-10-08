@@ -5,7 +5,7 @@ export function UsersList() {
   const { data, isLoading } = useUsersQuery();
 
   if (isLoading) {
-    return <div>LOADING...</div>;
+    return <div>Loading...</div>;
   }
 
   if (!data) {

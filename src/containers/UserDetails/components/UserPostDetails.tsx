@@ -3,7 +3,7 @@ import {
   useUserPostCommentsQuery,
 } from "../../../api/api";
 import { Post } from "../../../api/api.types";
-import { Button } from "../../../components/Button";
+import { Button } from "../../../components";
 import { useModal } from "../../../hooks";
 import { UserDeletePostModal } from "./UserDeletePostModal";
 import { UserPostComment } from "./UserPostComment";
@@ -42,7 +42,7 @@ export function UserPostDetails({
   );
 
   if (isLoading) {
-    return <div>LOADING...</div>;
+    return <div>Loading...</div>;
   }
 
   if (!comments) {

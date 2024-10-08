@@ -6,9 +6,11 @@ interface UserPostCommentProps {
 }
 
 export function UserPostComment({ data }: UserPostCommentProps) {
-  const { name, email, body } = data;
+  const { name, body } = data;
 
-  const { Modal, showModal } = useModal(<div>{JSON.stringify(data)}</div>);
+  const { Modal: CommentDetailsModal, showModal } = useModal(
+    <div>{JSON.stringify(data)}</div>
+  );
 
   return (
     <>
@@ -18,14 +20,14 @@ export function UserPostComment({ data }: UserPostCommentProps) {
       >
         <div className="mb-1">
           <p className="text-sm text-gray-500">
-            by {name} ({email})
+            by <span className="font-semibold">{name}</span>
           </p>
         </div>
         <div>
           <p>{body}</p>
         </div>
       </div>
-      <Modal />
+      <CommentDetailsModal />
     </>
   );
 }

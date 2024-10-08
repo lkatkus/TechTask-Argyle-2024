@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { NewPost, User } from "../../../api/api.types";
-import { Button } from "../../../components/Button";
+import { Button, TextInput } from "../../../components";
 
 type Inputs = {
   title: string;
@@ -38,22 +38,37 @@ export function UserAddPostModal({
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="grid grid-cols-1 gap-6"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div>
-          <input
-            placeholder="Enter title"
-            {...register("title", { required: true })}
-          />
-          {errors.title && <span>This field is required</span>}
+          <h2 className="text-xl font-semibold">Add a new post</h2>
         </div>
 
         <div>
-          <textarea
-            rows={5}
-            placeholder="Enter content"
-            {...register("body", { required: true })}
+          <TextInput
+            name="title"
+            label="Title"
+            placeholder="Enter title"
+            error={errors.title ? errors.title.message : undefined}
+            controllerProps={register("title", {
+              required: "This field is required",
+            })}
           />
-          {errors.body && <span>This field is required</span>}
+        </div>
+
+        <div>
+          <TextInput
+            rows={5}
+            name="body"
+            label="Content"
+            placeholder="Enter content"
+            error={errors.body ? errors.body.message : undefined}
+            controllerProps={register("body", {
+              required: "This field is required",
+            })}
+          />
         </div>
 
         <div className="flex justify-end gap-2">

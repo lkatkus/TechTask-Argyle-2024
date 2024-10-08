@@ -3,7 +3,7 @@ import { useAddPostMutation, useUserPostsQuery } from "../../api/api";
 import { NewPost, Post, User } from "../../api/api.types";
 import { UserAddPostModal, UserPostDetails } from "./components";
 import { useModal } from "../../hooks";
-import { Button } from "../../components/Button";
+import { Button } from "../../components";
 
 interface UserDetailsProps {
   data: User;
@@ -38,7 +38,11 @@ export function UserDetails({ data }: UserDetailsProps) {
 
   const { data: posts, isLoading } = useUserPostsQuery(id);
   const { mutate, isPending } = useAddPostMutation(handleOnAddUserPost);
-  const { Modal, showModal, hideModal } = useModal(
+  const {
+    Modal: PostFormModal,
+    showModal,
+    hideModal,
+  } = useModal(
     <UserAddPostModal
       isLoading={isPending}
       user={data}
@@ -62,7 +66,7 @@ export function UserDetails({ data }: UserDetailsProps) {
   }, [deletedPosts]);
 
   if (isLoading) {
-    return <div>LOADING...</div>;
+    return <div>Loading...</div>;
   }
 
   if (!displayedPosts) {
@@ -71,12 +75,12 @@ export function UserDetails({ data }: UserDetailsProps) {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-1 gap-4">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">
             {username} ({displayedPosts.length})
           </h2>
-          <Button onClick={showModal}>Add</Button>
+          <Button onClick={showModal}>Add a post</Button>
         </div>
 
         <div className="grid grid-cols-1 gap-4">
@@ -95,7 +99,7 @@ export function UserDetails({ data }: UserDetailsProps) {
           )}
         </div>
       </div>
-      <Modal />
+      <PostFormModal />
     </>
   );
 }

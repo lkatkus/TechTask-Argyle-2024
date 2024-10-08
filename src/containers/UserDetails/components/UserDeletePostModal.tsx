@@ -1,4 +1,4 @@
-import { Button } from "../../../components/Button";
+import { Button } from "../../../components";
 
 interface UserDeletePostModalProps {
   isLoading: boolean;
@@ -12,8 +12,14 @@ export const UserDeletePostModal = ({
   onDiscard,
 }: UserDeletePostModalProps) => {
   return (
-    <div>
-      <div>Are your sure you want to delete this post?</div>
+    <div className="grid grid-cols-1 gap-6">
+      <div>
+        <h2 className="text-xl font-semibold">Delete a post</h2>
+      </div>
+
+      <div>
+        <p>Are your sure you want to delete this post?</p>
+      </div>
 
       <div className="flex justify-end gap-2">
         <Button variant="secondary" disabled={isLoading} onClick={onDiscard}>
