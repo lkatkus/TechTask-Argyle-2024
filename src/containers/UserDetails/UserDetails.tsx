@@ -3,7 +3,7 @@ import { useAddPostMutation, useUserPostsQuery } from "../../api/api";
 import { NewPost, Post, User } from "../../api/api.types";
 import { UserAddPostModal, UserPostDetails } from "./components";
 import { useModal } from "../../hooks";
-import { Button } from "../../components";
+import { Button, DataModal } from "../../components";
 
 interface UserDetailsProps {
   data: User;
@@ -16,15 +16,15 @@ export function UserDetails({ data }: UserDetailsProps) {
   const [deletedPosts, setDeletedPosts] = useState<number[]>([]);
 
   const handleAddPost = (newPostData: NewPost) => {
-    mutate(newPostData);
+    mutateAddPost(newPostData);
   };
 
   const handleDiscardAppPost = () => {
-    hideModal();
+    hidePostFormModal();
   };
 
   const handleOnAddUserPost = (createdPostData: Post) => {
-    hideModal();
+    hidePostFormModal();
 
     const newCreatedPostId = Math.floor(Math.random() * 1000 + 100);
     const createdPost = { ...createdPostData, id: newCreatedPostId };
@@ -37,11 +37,12 @@ export function UserDetails({ data }: UserDetailsProps) {
   };
 
   const { data: posts, isLoading } = useUserPostsQuery(id);
-  const { mutate, isPending } = useAddPostMutation(handleOnAddUserPost);
+  const { mutate: mutateAddPost, isPending } =
+    useAddPostMutation(handleOnAddUserPost);
   const {
     Modal: PostFormModal,
-    showModal,
-    hideModal,
+    showModal: showPostFormModal,
+    hideModal: hidePostFormModal,
   } = useModal(
     <UserAddPostModal
       isLoading={isPending}
@@ -49,6 +50,9 @@ export function UserDetails({ data }: UserDetailsProps) {
       onConfirm={handleAddPost}
       onDiscard={handleDiscardAppPost}
     />
+  );
+  const { Modal: UserDetailsModal, showModal: showUserDetailsModal } = useModal(
+    <DataModal data={data} />
   );
 
   useEffect(() => {
@@ -77,10 +81,13 @@ export function UserDetails({ data }: UserDetailsProps) {
     <>
       <div className="grid grid-cols-1 gap-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">
+          <h2
+            className="text-2xl font-bold hover:cursor-pointer hover:text-blue-500"
+            onClick={showUserDetailsModal}
+          >
             {username} ({displayedPosts.length})
           </h2>
-          <Button onClick={showModal}>Add a post</Button>
+          <Button onClick={showPostFormModal}>Add a post</Button>
         </div>
 
         <div className="grid grid-cols-1 gap-4">
@@ -99,7 +106,9 @@ export function UserDetails({ data }: UserDetailsProps) {
           )}
         </div>
       </div>
+
       <PostFormModal />
+      <UserDetailsModal />
     </>
   );
 }

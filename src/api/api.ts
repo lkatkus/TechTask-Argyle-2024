@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, keepPreviousData } from "@tanstack/react-query";
 import { User, Post, PostComment } from "./api.types";
 
 const fetchUsers = async (): Promise<User[]> => {
@@ -12,6 +12,8 @@ const fetchUsers = async (): Promise<User[]> => {
 
 export const useUsersQuery = () => {
   return useQuery({
+    refetchOnMount: false,
+    placeholderData: keepPreviousData,
     queryKey: ["users"],
     queryFn: () => fetchUsers(),
   });
@@ -30,6 +32,8 @@ const fetchUserPosts = async (userId: number): Promise<Post[]> => {
 
 export const useUserPostsQuery = (userId: number) => {
   return useQuery({
+    refetchOnMount: false,
+    placeholderData: keepPreviousData,
     queryKey: ["userPosts", userId],
     queryFn: () => fetchUserPosts(userId),
   });
@@ -50,6 +54,8 @@ const fetchUserPostComments = async (
 
 export const useUserPostCommentsQuery = (postId: number) => {
   return useQuery({
+    refetchOnMount: false,
+    placeholderData: keepPreviousData,
     queryKey: ["userPostComments", postId],
     queryFn: () => fetchUserPostComments(postId),
   });

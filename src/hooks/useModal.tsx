@@ -31,8 +31,8 @@ export const useModal = (content: JSX.Element): ReturnProps => {
       className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
     >
       <div
-        className="relative bg-white rounded-lg shadow-lg p-6 max-w-lg w-full "
         onClick={(e) => e.stopPropagation()}
+        className="relative bg-white rounded-lg shadow-lg p-6 max-w-2xl w-full max-h-screen overflow-auto"
       >
         <div className="absolute right-0 top-0 m-2">
           <Button variant="secondary" onClick={handleHideModal}>

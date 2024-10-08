@@ -2,7 +2,7 @@ import { UseFormRegisterReturn } from "react-hook-form";
 
 interface TextInputProps {
   name: string;
-  label: string;
+  label?: string;
   rows?: number;
   placeholder?: string;
   controllerProps: UseFormRegisterReturn;
@@ -33,12 +33,14 @@ export const TextInput = ({
 
   return (
     <div className="grid grid-cols-1 gap-1">
-      <label
-        htmlFor={name}
-        className={`text-xs ${error ? "text-red-500" : "text-gray-600"}`}
-      >
-        {label}
-      </label>
+      {label && (
+        <label
+          htmlFor={name}
+          className={`text-xs ${error ? "text-red-500" : "text-gray-600"}`}
+        >
+          {label}
+        </label>
+      )}
 
       {rows ? (
         <textarea rows={rows} {...inputProps} />
