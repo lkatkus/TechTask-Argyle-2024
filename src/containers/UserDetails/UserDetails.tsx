@@ -18,6 +18,10 @@ export function UserDetails({ data }: UserDetailsProps) {
     mutate(newPostData);
   };
 
+  const handleDiscardAppPost = () => {
+    hideModal();
+  };
+
   const handleOnAddUserPost = (createdPostData: Post) => {
     hideModal();
 
@@ -34,7 +38,12 @@ export function UserDetails({ data }: UserDetailsProps) {
   const { data: posts, isLoading } = useUserPostsQuery(id);
   const { mutate, isPending } = useAddPostMutation(handleOnAddUserPost);
   const { Modal, showModal, hideModal } = useModal(
-    <UserAddPostModal isLoading={isPending} handleAddPost={handleAddPost} />
+    <UserAddPostModal
+      isLoading={isPending}
+      user={data}
+      onConfirm={handleAddPost}
+      onDiscard={handleDiscardAppPost}
+    />
   );
 
   useEffect(() => {
@@ -60,33 +69,35 @@ export function UserDetails({ data }: UserDetailsProps) {
   }
 
   return (
-    <div style={{ padding: 8, backgroundColor: "green" }}>
+    <>
+      <div style={{ padding: 8, backgroundColor: "green" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2>User - {id}</h2>
+          <button onClick={showModal}>Add</button>
+        </div>
+        <div style={{ padding: 8, backgroundColor: "blue" }}>
+          {displayedPosts.length > 0 ? (
+            displayedPosts.map((post) => {
+              return (
+                <UserPostDetails
+                  key={post.id}
+                  data={post}
+                  onDeleteUserPost={handleOnDeleteUserPost}
+                />
+              );
+            })
+          ) : (
+            <div>This user does not have any posts.</div>
+          )}
+        </div>
+      </div>
       <Modal />
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <h2>User - {id}</h2>
-        <button onClick={showModal}>Add</button>
-      </div>
-      <div style={{ padding: 8, backgroundColor: "blue" }}>
-        {displayedPosts.length > 0 ? (
-          displayedPosts.map((post) => {
-            return (
-              <UserPostDetails
-                key={post.id}
-                data={post}
-                onDeleteUserPost={handleOnDeleteUserPost}
-              />
-            );
-          })
-        ) : (
-          <div>This user does not have any posts.</div>
-        )}
-      </div>
-    </div>
+    </>
   );
 }
