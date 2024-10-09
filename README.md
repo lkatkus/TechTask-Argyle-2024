@@ -2,8 +2,9 @@
 > "Wow, much users, such posts, very comments"  
 > -- nobody
 
-Demo - https://lkatkus.github.io/TechTask-Argyle-2024/
-Repo - https://github.com/lkatkus/TechTask-Argyle-2024
+## Links
+* [Demo](https://lkatkus.github.io/TechTask-Argyle-2024/)
+* [Repository](https://github.com/lkatkus/TechTask-Argyle-2024)
 
 ## Project setup
 * `vitejs` - for easy react and typescript template;
