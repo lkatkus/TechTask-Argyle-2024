@@ -1,9 +1,9 @@
-import { PostComment } from "../../../api/api.types";
+import { Comment } from "../../../api/api.types";
 import { DataModal } from "../../../components";
 import { useModal } from "../../../hooks";
 
 interface UserPostCommentProps {
-  data: PostComment;
+  data: Comment;
 }
 
 export function UserPostComment({ data }: UserPostCommentProps) {

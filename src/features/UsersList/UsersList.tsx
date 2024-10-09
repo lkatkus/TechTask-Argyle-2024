@@ -1,19 +1,19 @@
 import { useContext, useEffect, useState } from "react";
-import { useUsersQuery } from "../../api/api";
+import { useFullUsersDataQuery } from "../../api/api";
 import { UserDetails } from "../../containers/UserDetails";
 import { SearchContext } from "../../store/SearchContext";
-import { User } from "../../api/api.types";
+import { UserWithPosts } from "../../api/api.types";
 
 export function UsersList() {
-  const [displayedUsers, setDisplayedUsers] = useState<User[]>([]);
+  const [displayedUsers, setDisplayedUsers] = useState<UserWithPosts[]>([]);
   const [displayedUsersFilter, setDisplayedUsersFilter] = useState("");
 
-  const { data, isLoading } = useUsersQuery();
+  const { data, isLoading } = useFullUsersDataQuery();
   const { search } = useContext(SearchContext);
 
   useEffect(() => {
     if (data) {
-      let users: User[];
+      let users: UserWithPosts[];
 
       if (displayedUsersFilter) {
         users = data.filter(({ username }) => {
@@ -44,14 +44,20 @@ export function UsersList() {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-16">
-      {displayedUsers.length > 0 ? (
-        displayedUsers.map((user) => {
-          return <UserDetails key={user.id} data={user} />;
-        })
-      ) : (
-        <div>No users data available.</div>
-      )}
+    <div>
+      <div className="mb-4">
+        <h2 className="text-2xl font-bold">Users ({displayedUsers.length})</h2>
+      </div>
+
+      <div className="grid grid-cols-1 gap-16">
+        {displayedUsers.length > 0 ? (
+          displayedUsers.map((user) => {
+            return <UserDetails key={user.id} data={user} />;
+          })
+        ) : (
+          <div>No users data available.</div>
+        )}
+      </div>
     </div>
   );
 }

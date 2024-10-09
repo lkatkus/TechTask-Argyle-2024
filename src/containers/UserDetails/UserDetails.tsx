@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { useAddPostMutation, useUserPostsQuery } from "../../api/api";
-import { NewPost, Post, User } from "../../api/api.types";
+import { useAddPostMutation } from "../../api/api";
+import { NewPost, UserPost, UserWithPosts, Post } from "../../api/api.types";
 import { UserAddPostModal, UserPostDetails } from "./components";
 import { useModal } from "../../hooks";
 import { Button, DataModal } from "../../components";
 
 interface UserDetailsProps {
-  data: User;
+  data: UserWithPosts;
 }
 
 export function UserDetails({ data }: UserDetailsProps) {
-  const { id, username } = data;
+  const { username, posts } = data;
 
-  const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
+  const [displayedPosts, setDisplayedPosts] = useState<UserPost[]>([]);
   const [deletedPosts, setDeletedPosts] = useState<number[]>([]);
 
   const handleAddPost = (newPostData: NewPost) => {
@@ -27,7 +27,11 @@ export function UserDetails({ data }: UserDetailsProps) {
     hidePostFormModal();
 
     const newCreatedPostId = Math.floor(Math.random() * 1000 + 100);
-    const createdPost = { ...createdPostData, id: newCreatedPostId };
+    const createdPost: UserPost = {
+      ...createdPostData,
+      id: newCreatedPostId,
+      comments: [],
+    };
 
     setDisplayedPosts((v) => [...v, createdPost]);
   };
@@ -36,7 +40,6 @@ export function UserDetails({ data }: UserDetailsProps) {
     setDeletedPosts((v) => [...v, deletedPostId]);
   };
 
-  const { data: posts, isLoading } = useUserPostsQuery(id);
   const { mutate: mutateAddPost, isPending } =
     useAddPostMutation(handleOnAddUserPost);
   const {
@@ -69,24 +72,20 @@ export function UserDetails({ data }: UserDetailsProps) {
     }
   }, [deletedPosts]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   if (!displayedPosts) {
     return <div>Missing user posts data.</div>;
   }
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-2">
         <div className="flex items-center justify-between">
-          <h2
-            className="text-2xl font-bold hover:cursor-pointer hover:text-blue-500"
+          <h3
+            className="text-xl font-bold hover:cursor-pointer hover:text-blue-500"
             onClick={showUserDetailsModal}
           >
-            {username} ({displayedPosts.length})
-          </h2>
+            Posts by {username} ({displayedPosts.length})
+          </h3>
           <Button onClick={showPostFormModal}>Add a post</Button>
         </div>
 

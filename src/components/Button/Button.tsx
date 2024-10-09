@@ -7,7 +7,7 @@ interface ButtonProps extends PropsWithChildren {
   onClick?: () => void;
 }
 
-const BUTTON_BASE = "px-4 py-2 rounded font-semibold focus:outline-none";
+const BUTTON_BASE = "px-2 py-1 text-sm rounded focus:outline-none";
 const BUTTON_DISABLED = "opacity-50 cursor-not-allowed";
 const BUTTON_VARIANTS = {
   primary: "bg-blue-500 hover:bg-blue-600 text-white",

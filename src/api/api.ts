@@ -1,5 +1,6 @@
 import { useMutation, useQuery, keepPreviousData } from "@tanstack/react-query";
-import { User, Post, PostComment } from "./api.types";
+import { User, Post, Comment, UserWithPosts } from "./api.types";
+import { mapCommentsToPost, mapUserPostsToUser } from "./api.utils";
 
 const fetchUsers = async (): Promise<User[]> => {
   const url = new URL(`https://jsonplaceholder.typicode.com/users`);
@@ -10,19 +11,8 @@ const fetchUsers = async (): Promise<User[]> => {
   return data;
 };
 
-export const useUsersQuery = () => {
-  return useQuery({
-    refetchOnMount: false,
-    placeholderData: keepPreviousData,
-    queryKey: ["users"],
-    queryFn: () => fetchUsers(),
-  });
-};
-
-const fetchUserPosts = async (userId: number): Promise<Post[]> => {
-  const url = new URL(
-    `https://jsonplaceholder.typicode.com/users/${userId}/posts`
-  );
+const fetchPosts = async (): Promise<Post[]> => {
+  const url = new URL(`https://jsonplaceholder.typicode.com/posts`);
 
   const res = await fetch(url);
   const data = await res.json();
@@ -30,21 +20,8 @@ const fetchUserPosts = async (userId: number): Promise<Post[]> => {
   return data;
 };
 
-export const useUserPostsQuery = (userId: number) => {
-  return useQuery({
-    refetchOnMount: false,
-    placeholderData: keepPreviousData,
-    queryKey: ["userPosts", userId],
-    queryFn: () => fetchUserPosts(userId),
-  });
-};
-
-const fetchUserPostComments = async (
-  postId: number
-): Promise<PostComment[]> => {
-  const url = new URL(
-    `https://jsonplaceholder.typicode.com/posts/${postId}/comments`
-  );
+const fetchComments = async (): Promise<Comment[]> => {
+  const url = new URL(`https://jsonplaceholder.typicode.com/comments`);
 
   const res = await fetch(url);
   const data = await res.json();
@@ -52,16 +29,28 @@ const fetchUserPostComments = async (
   return data;
 };
 
-export const useUserPostCommentsQuery = (postId: number) => {
+const fetchFullUsersData = async (): Promise<UserWithPosts[]> => {
+  const [users, posts, comments] = await Promise.all([
+    fetchUsers(),
+    fetchPosts(),
+    fetchComments(),
+  ]);
+
+  const postsWithComments = mapCommentsToPost(posts, comments);
+  const usersWithPosts = mapUserPostsToUser(users, postsWithComments);
+
+  return usersWithPosts;
+};
+
+export const useFullUsersDataQuery = () => {
   return useQuery({
-    refetchOnMount: false,
     placeholderData: keepPreviousData,
-    queryKey: ["userPostComments", postId],
-    queryFn: () => fetchUserPostComments(postId),
+    queryKey: ["usersDataQuery"],
+    queryFn: fetchFullUsersData,
   });
 };
 
-const deleteUserPost = async (postId: number): Promise<PostComment[]> => {
+const deleteUserPost = async (postId: number): Promise<Comment[]> => {
   const url = new URL(`https://jsonplaceholder.typicode.com/posts/${postId}`);
 
   const res = await fetch(url, { method: "DELETE" });

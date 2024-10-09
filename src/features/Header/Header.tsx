@@ -1,7 +1,7 @@
 import { ChangeEventHandler, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { SearchContext } from "../../store/SearchContext";
-import { useUsersQuery } from "../../api/api";
+import { useFullUsersDataQuery } from "../../api/api";
 import { TextInput } from "../../components";
 import { debounce } from "../../utils";
 
@@ -11,7 +11,7 @@ type SearchInputs = {
 
 export function Header() {
   const searchContextValue = useContext(SearchContext);
-  const { isLoading } = useUsersQuery();
+  const { isLoading } = useFullUsersDataQuery();
   const { register } = useForm<SearchInputs>({
     defaultValues: { search: searchContextValue.search },
   });
@@ -24,7 +24,7 @@ export function Header() {
 
   return (
     <div className="py-4 grid grid-cols-2 gap-4">
-      <h1 className="text-3xl font-bold">{"Commentator >9K"}</h1>
+      <h1 className="text-3xl font-bold">Commentator 9000</h1>
       <div>
         <TextInput
           name="search"

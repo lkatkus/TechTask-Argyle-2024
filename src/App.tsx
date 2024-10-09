@@ -2,9 +2,9 @@ import { Header, UsersList } from "./features";
 
 function App() {
   return (
-    <div className="grid grid-rows-[min-content_1fr] gap-4">
-      <div className="sticky top-0 bg-slate-200">
-        <div className="container mx-auto">
+    <div className="grid grid-rows-[min-content_1fr] gap-4 pb-8">
+      <div className="sticky top-0 bg-slate-200 border-b-4 border-gray-100">
+        <div className="container mx-auto ">
           <Header />
         </div>
       </div>

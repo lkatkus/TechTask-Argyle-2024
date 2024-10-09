@@ -1,15 +1,12 @@
-import {
-  useDeletePostMutation,
-  useUserPostCommentsQuery,
-} from "../../../api/api";
-import { Post } from "../../../api/api.types";
+import { useDeletePostMutation } from "../../../api/api";
+import { UserPost } from "../../../api/api.types";
 import { Button } from "../../../components";
 import { useModal } from "../../../hooks";
 import { UserDeletePostModal } from "./UserDeletePostModal";
 import { UserPostComment } from "./UserPostComment";
 
 interface UserPostDetailsProps {
-  data: Post;
+  data: UserPost;
   onDeleteUserPost: (deletedPostId: number) => void;
 }
 
@@ -17,7 +14,7 @@ export function UserPostDetails({
   data,
   onDeleteUserPost,
 }: UserPostDetailsProps) {
-  const { id, title, body } = data;
+  const { id, title, comments, body } = data;
 
   const handleDeletePost = () => {
     mutate(id);
@@ -27,7 +24,6 @@ export function UserPostDetails({
     hideModal();
   };
 
-  const { data: comments, isLoading } = useUserPostCommentsQuery(id);
   const { mutate, isPending } = useDeletePostMutation(onDeleteUserPost);
   const {
     Modal: ConfirmPostDeleteModal,
@@ -40,10 +36,6 @@ export function UserPostDetails({
       onConfirm={handleDeletePost}
     />
   );
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   if (!comments) {
     return <div>Missing user post comments data.</div>;

@@ -35,10 +35,18 @@ export interface NewPost {
   userId: number;
 }
 
-export interface PostComment {
+export interface Comment {
   postId: number;
   id: number;
   name: string;
   email: string;
   body: string;
+}
+
+export interface UserPost extends Post {
+  comments: Comment[];
+}
+
+export interface UserWithPosts extends User {
+  posts: UserPost[];
 }
