@@ -23,7 +23,7 @@ export function Header() {
   };
 
   return (
-    <div className="py-4 grid gap-4 grid-cols-[min-content_1fr] md:grid-cols-2 px-4 md:px-0 items-center">
+    <div className="py-4 grid gap-4 grid-cols-[min-content_1fr] md:grid-cols-2 items-center">
       <div className="text-3xl font-bold uppercase">
         <h1 className="hidden md:block">Commentator 9000</h1>
 

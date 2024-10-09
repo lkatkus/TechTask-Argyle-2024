@@ -53,7 +53,7 @@ export function UserPostDetails({
         </div>
 
         <div className="p-4 border-t-4 border-slate-200 bg-gray-100 rounded-b">
-          <div className="p-4 mb-4">
+          <div className="p-0 md:p-2 mb-4">
             <p>{body}</p>
           </div>
           <div>
@@ -66,7 +66,11 @@ export function UserPostDetails({
                 </div>
               </Accordion>
             ) : (
-              <div>This post does not have any comments.</div>
+              <div>
+                <p className="text-sm font-semibold">
+                  This post does not have any comments.
+                </p>
+              </div>
             )}
           </div>
         </div>

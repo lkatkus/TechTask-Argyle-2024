@@ -29,7 +29,7 @@ export function UserAddPostModal({
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const formPayload = {
       title: data.title,
-      body: data.title,
+      body: data.body,
       userId: user.id,
     };
 

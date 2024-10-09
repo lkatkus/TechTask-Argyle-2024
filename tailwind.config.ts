@@ -2,7 +2,12 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        heading: ["Quattrocento", "sans-serif"],
+        body: ["Quattrocento Sans", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };
