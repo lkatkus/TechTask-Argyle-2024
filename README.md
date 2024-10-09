@@ -13,6 +13,13 @@
 * `react-hook-form` - works well without much boiler plate;
 * `vitest` and `react-testing-library` - for basic testing unit and component tests;
 
+## TODOS
+* Add E2E test using `cypress` or similar;
+* Add `storybook` for `component` development or even move the to an external library;
+* Add some for fancy filtering for users, posts and comments;
+* Separate pages for users and their posts;
+* Proper designs;
+
 ## Starting locally
 * Clone repository
 * `npm i`
