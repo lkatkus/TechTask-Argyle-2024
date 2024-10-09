@@ -43,10 +43,6 @@ export function UserAddPostModal({
         onSubmit={handleSubmit(onSubmit)}
       >
         <div>
-          <h2 className="text-xl font-semibold">Add a new post</h2>
-        </div>
-
-        <div>
           <TextInput
             name="title"
             label="Title"
@@ -60,7 +56,7 @@ export function UserAddPostModal({
 
         <div>
           <TextInput
-            rows={5}
+            rows={3}
             name="body"
             label="Content"
             placeholder="Enter content"

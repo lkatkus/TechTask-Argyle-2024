@@ -8,6 +8,6 @@ body,
   height: 100%;
 }
 
-body {
-  background-color: rgb(226 232 240);
+html {
+  scrollbar-gutter: stable;
 }

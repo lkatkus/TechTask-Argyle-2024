@@ -14,10 +14,6 @@ export const UserDeletePostModal = ({
   return (
     <div className="grid grid-cols-1 gap-6">
       <div>
-        <h2 className="text-xl font-semibold">Delete a post</h2>
-      </div>
-
-      <div>
         <p>Are your sure you want to delete this post?</p>
       </div>
 

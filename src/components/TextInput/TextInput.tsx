@@ -9,7 +9,8 @@ interface TextInputProps {
   error?: string;
 }
 
-const INPUT_BASE = "border-b p-2 w-full transition duration-150 ease-in-out";
+const INPUT_BASE =
+  "border-b p-2 w-full transition duration-150 ease-in-out bg-transparent";
 
 export const TextInput = ({
   name,

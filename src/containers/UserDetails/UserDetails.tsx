@@ -52,10 +52,12 @@ export function UserDetails({ data }: UserDetailsProps) {
       user={data}
       onConfirm={handleAddPost}
       onDiscard={handleDiscardAppPost}
-    />
+    />,
+    { label: "Add a new post" }
   );
   const { Modal: UserDetailsModal, showModal: showUserDetailsModal } = useModal(
-    <DataModal data={data} />
+    <DataModal data={data} />,
+    { label: "User details" }
   );
 
   useEffect(() => {
@@ -78,13 +80,13 @@ export function UserDetails({ data }: UserDetailsProps) {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-2">
+      <div className="grid grid-cols-1 gap-2 bg-slate-300 p-4 rounded">
         <div className="flex items-center justify-between">
           <h3
             className="text-xl font-bold hover:cursor-pointer hover:text-blue-500"
             onClick={showUserDetailsModal}
           >
-            Posts by {username} ({displayedPosts.length})
+            {username} ({displayedPosts.length})
           </h3>
           <Button onClick={showPostFormModal}>Add a post</Button>
         </div>

@@ -36,7 +36,11 @@ export function UsersList() {
   }, [displayedUsersFilter, search]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center">
+        <div>Loading...</div>
+      </div>
+    );
   }
 
   if (!data) {
@@ -49,7 +53,7 @@ export function UsersList() {
         <h2 className="text-2xl font-bold">Users ({displayedUsers.length})</h2>
       </div>
 
-      <div className="grid grid-cols-1 gap-16">
+      <div className="grid grid-cols-1 gap-8">
         {displayedUsers.length > 0 ? (
           displayedUsers.map((user) => {
             return <UserDetails key={user.id} data={user} />;

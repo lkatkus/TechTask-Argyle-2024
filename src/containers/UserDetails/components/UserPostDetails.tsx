@@ -1,6 +1,6 @@
 import { useDeletePostMutation } from "../../../api/api";
 import { UserPost } from "../../../api/api.types";
-import { Button } from "../../../components";
+import { Accordion, Button } from "../../../components";
 import { useModal } from "../../../hooks";
 import { UserDeletePostModal } from "./UserDeletePostModal";
 import { UserPostComment } from "./UserPostComment";
@@ -34,7 +34,8 @@ export function UserPostDetails({
       isLoading={isPending}
       onDiscard={handleDiscardDeletePost}
       onConfirm={handleDeletePost}
-    />
+    />,
+    { label: "Delete a post" }
   );
 
   if (!comments) {
@@ -51,23 +52,22 @@ export function UserPostDetails({
           </Button>
         </div>
 
-        <div className="p-4 border-t-4 border-slate-400 bg-gray-100">
+        <div className="p-4 border-t-4 border-slate-200 bg-gray-100 rounded-b">
           <div className="p-4 mb-4">
             <p>{body}</p>
           </div>
           <div>
-            <div className="mb-2">
-              <p className="text-sm">Comments ({comments.length})</p>
-            </div>
-            <div className="grid grid-cols-1 gap-2">
-              {comments.length > 0 ? (
-                comments.map((comment) => {
-                  return <UserPostComment key={comment.id} data={comment} />;
-                })
-              ) : (
-                <div>This post does not have any comments.</div>
-              )}
-            </div>
+            {comments.length > 0 ? (
+              <Accordion label={`Comments (${comments.length})`}>
+                <div className="grid grid-cols-1 gap-2">
+                  {comments.map((comment) => {
+                    return <UserPostComment key={comment.id} data={comment} />;
+                  })}
+                </div>
+              </Accordion>
+            ) : (
+              <div>This post does not have any comments.</div>
+            )}
           </div>
         </div>
       </div>

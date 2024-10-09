@@ -23,8 +23,13 @@ export function Header() {
   };
 
   return (
-    <div className="py-4 grid grid-cols-2 gap-4">
-      <h1 className="text-3xl font-bold">Commentator 9000</h1>
+    <div className="py-4 grid gap-4 grid-cols-[min-content_1fr] md:grid-cols-2 px-4 md:px-0 items-center">
+      <div className="text-3xl font-bold uppercase">
+        <h1 className="hidden md:block">Commentator 9000</h1>
+
+        <h1 className="md:hidden">C9K</h1>
+      </div>
+
       <div>
         <TextInput
           name="search"

@@ -2,15 +2,15 @@ import { Header, UsersList } from "./features";
 
 function App() {
   return (
-    <div className="grid grid-rows-[min-content_1fr] gap-4 pb-8">
-      <div className="sticky top-0 bg-slate-200 border-b-4 border-gray-100">
+    <div className="grid grid-rows-[min-content_1fr] pb-4 text-slate-800">
+      <div className="sticky top-0 bg-slate-300 shadow-lg">
         <div className="container mx-auto ">
           <Header />
         </div>
       </div>
 
-      <div>
-        <div className="container mx-auto">
+      <div className="bg-slate-400">
+        <div className="py-4 container mx-auto">
           <UsersList />
         </div>
       </div>
