@@ -16,13 +16,20 @@ export const Accordion = ({ label, children }: AccordionProps) => {
   return (
     <div>
       <div
-        className="flex justify-between hover:cursor-pointer hover:text-blue-500 font-semibold"
+        data-testid="AccordionLabelWrapper"
         onClick={handleToggleOpen}
+        className="flex justify-between hover:cursor-pointer hover:text-blue-500 font-semibold"
       >
-        <p className="text-sm">{label}</p>
+        <p data-testid="AccordionLabel" className="text-sm">
+          {label}
+        </p>
         <FontAwesomeIcon icon={isOpen ? faAngleUp : faAngleDown} />
       </div>
-      {isOpen && <div className="mt-4">{children}</div>}
+      {isOpen && (
+        <div data-testid="AccordionContentContainer" className="mt-4">
+          {children}
+        </div>
+      )}
     </div>
   );
 };

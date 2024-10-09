@@ -16,7 +16,7 @@ export const mapCommentsToPost = (
 
   const mappedPosts: UserPost[] = posts.map((post) => ({
     ...post,
-    comments: commentsByPostId[post.id],
+    comments: commentsByPostId[post.id] || [],
   }));
 
   return mappedPosts;
