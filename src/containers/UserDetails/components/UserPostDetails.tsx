@@ -17,7 +17,11 @@ export function UserPostDetails({
   const { id, title, comments, body } = data;
 
   const handleDeletePost = () => {
-    mutate(id);
+    mutate(id, {
+      onSuccess() {
+        hideModal();
+      },
+    });
   };
 
   const handleDiscardDeletePost = () => {
